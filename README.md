@@ -1,7 +1,7 @@
 ### Date created 3/14/2020
 Include the date you created this project and README file.
 
-### Project Title: BikeShare.Py In Github
+### Project Title: Adding BikeShare.py Project In Github
 Replace the Project Title
 
 ### Description: Part 1 was to use python to analyze data about bikesharing patterns in 3 cities.  Part 2 was Learning Version Control by using GitHub.
