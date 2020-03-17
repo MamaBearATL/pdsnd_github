@@ -2,6 +2,10 @@ import time
 import pandas as pd
 import numpy as np
 
+#This is the Bikeshare.py Project.  Users are asked for city and month inputs.
+#Then the program provides a summary analysis of ride data.
+#The final run shows the detail data file, if requested by the user.
+
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york': 'new_york_city.csv',
               'washington': 'washington.csv' }
@@ -18,7 +22,7 @@ def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
 
-    city = input("Which city would you like to explore - Chicago, Washington, or New York? ").lower() 
+    city = input("Which city would you like to explore - Chicago, Washington, or New York? ").lower()
     while True:
         if city == 'chicago':
             print(city.capitalize() + "...The Windy City. Great choice!")
@@ -31,14 +35,14 @@ def get_filters():
             break
         else:
             city = input ("Please choose one of these - Chicago, Washington, or New York: ").lower()
-    
+
     # TO DO: get user input for month (all, january, february, ... , june)
     months = ['january', 'february', 'march', 'april', 'may', 'june', 'all']
     month = input("Which month would you like to see for " + city.capitalize() + "? Type ALL if you want to see everything: ").lower()
     while True:
         if month in months:
             print(month.capitalize() + ".  Awesome Sauce!")
-            break    
+            break
         else:
             month = input("Please enter only a month between January and June. Or type ALL if you want to see everything: ").lower()
 
@@ -48,7 +52,7 @@ def get_filters():
     while True:
         if day in days_of_week:
             print(day.capitalize() + ", best days ever!")
-            break  
+            break
         else:
             day = input("Please enter a day of the week. Or type ALL if you want to see everything: ").lower()
 
@@ -74,12 +78,12 @@ def load_data(city, month, day):
     # convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
 
-           
+
     # extract month, day of week, and hour of day from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.weekday_name
     df['hour_of_day'] = df['Start Time'].dt.hour
-    
+
     # combine the Start and End Stations to create a new column
     df['from_to_trip']= df['Start Station'] + " to " + df['End Station']
 
@@ -104,7 +108,7 @@ def fifth_line (line_count):
             input('Press any key to continue...\n')
             line_count == 0
             return line_count
-                  
+
 
 def time_stats(df, line_count):
     """Displays statistics on the most frequent times of travel."""
@@ -118,26 +122,26 @@ def time_stats(df, line_count):
     months = ['January', 'February', 'March', 'April', 'May', 'June']
     high_day = Counter(df['day_of_week']).most_common(1)[0][0]
     busy_hour = Counter(df['hour_of_day']).most_common(1)[0][0]
-    
+
     print('High travel times are in '+ months[high_month] + ' on '+ high_day + 's at ' + str(busy_hour) + ':00.')
     line_count = line_count+1
     fifth_line(line_count)
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     line_count = line_count+1
-    fifth_line(line_count)  
-    
+    fifth_line(line_count)
+
     print('-'*40)
     line_count = line_count+1
-    input('Press any key to continue...\n')          
+    input('Press any key to continue...\n')
 
 
 
 def station_stats(df, line_count):
     """Displays statistics on the most popular stations and trip."""
-    from collections import Counter 
+    from collections import Counter
     start_time = time.time()
-    
+
     print('Calculating The Most Popular Stations and Trip...')
     line_count = 0
 
@@ -152,26 +156,26 @@ def station_stats(df, line_count):
     print('Ending Point: ' + popular_end_station)
     line_count = line_count+1
     fifth_line(line_count)
-    
+
     # TO DO: display most frequent combination of start station and end station trip
     popular_round_trip = Counter(df['from_to_trip']).most_common(1)[0][0]
     print('Popular Round Trip: ' + popular_round_trip)
     line_count = line_count+1
     fifth_line(line_count)
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     line_count = line_count+1
     fifth_line(line_count)
-    
+
     print('-'*40)
     line_count = line_count+1
     input('Press any key to continue...\n')
-            
+
 
 
 def trip_duration_stats(df, line_count):
     """Displays statistics on the total and average trip duration."""
-    
+
     start_time = time.time()
     print('Calculating Trip Duration...')
     line_count = 0
@@ -180,43 +184,43 @@ def trip_duration_stats(df, line_count):
     print (str(sum(df['Trip Duration'])) + ' seconds over all bikeshares')
     line_count = line_count+1
     fifth_line(line_count)
-    
+
     # TO DO: display mean travel time
     print (str(sum(df['Trip Duration'])/len(df['Trip Duration'])) + ' seconds on average for one bikeshare trip')
     line_count = line_count+1
     fifth_line(line_count)
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     line_count = line_count+1
     fifth_line(line_count)
-    
+
     print('-'*40)
     input('Press any key to continue...\n')
-            
-     
+
+
 
 
 def user_stats(df, line_count):
     """Displays statistics on bikeshare users."""
-    import statistics 
+    import statistics
     from collections import Counter
-    
+
     start_time = time.time()
     print('Calculating User Stats...')
     line_count = 0
- 
- 
+
+
     # TO DO: Display counts of user types
     # Remove any row that is blank in User Type
     df.dropna(subset = ["User Type"], inplace=True)
-    for key, value in Counter(df['User Type']).items(): 
+    for key, value in Counter(df['User Type']).items():
         print (key, " -> ", value)
         line_count = line_count+1
         fifth_line(line_count)
 
     # TO DO: Display counts of gender
     if "Gender" in df:
-        for key, value in Counter(df['Gender']).items(): 
+        for key, value in Counter(df['Gender']).items():
             if key == 'Male' or key == 'Female':
                 print (key, " -> ", value)
                 line_count = line_count+1
@@ -232,11 +236,11 @@ def user_stats(df, line_count):
         print('Oldest Rider Birth Year: ' + str(min(year_of_birth)))
         line_count = line_count+1
         fifth_line(line_count)
-        
+
         print('Youngest Rider Birth Year: ' + str(max(year_of_birth)))
         line_count = line_count+1
         fifth_line(line_count)
-        
+
         print('Most Frequent Rider Birth Year: ' + str(statistics.mode(year_of_birth)))
         line_count = line_count+1
         fifth_line(line_count)
@@ -244,24 +248,24 @@ def user_stats(df, line_count):
     print("\nThis took %s seconds." % (time.time() - start_time))
     line_count = line_count+1
     fifth_line(line_count)
-    
+
     print('-'*40)
     line_count = line_count+1
     input('Press any key to continue...\n')
-    
+
 def show_rawdata(df):
     get_lines = input('Would you like to view 5 rows of the raw data? Enter yes or no: ')
     line_one = 0
     line_five = 5
     while True:
         if get_lines.lower() in ['yes', 'y']:
-            print(df.iloc[line_one:line_five])       
+            print(df.iloc[line_one:line_five])
             line_one=line_one+5
             line_five=line_five+5
         else:
             break
-        get_lines = input('Want to see another 5 rows of the raw data? Enter yes or no: ')  
-        
+        get_lines = input('Want to see another 5 rows of the raw data? Enter yes or no: ')
+
 
 
 
@@ -275,7 +279,7 @@ def main():
         station_stats(df, line_count)
         trip_duration_stats(df, line_count)
         user_stats(df, line_count)
-        show_rawdata(df) 
+        show_rawdata(df)
 
         restart = input('\n***END OF ANALYSIS***. Would you like to restart? ')
         if restart.lower() not in ['yes', 'y']:
