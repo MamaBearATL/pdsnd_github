@@ -13,15 +13,15 @@ CITY_DATA = { 'chicago': 'chicago.csv',
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
-
     Returns:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
-    print('Hello! Let\'s explore some US bikeshare data!')
-    # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
 
+    print('Hello! Let\'s explore some US bikeshare data!')
+
+    # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     city = input("Which city would you like to explore - Chicago, Washington, or New York? ").lower()
     while True:
         if city == 'chicago':
@@ -55,8 +55,6 @@ def get_filters():
             break
         else:
             day = input("Please enter a day of the week. Or type ALL if you want to see everything: ").lower()
-
-
     print('-'*40)
     return city, month, day
 
@@ -64,7 +62,6 @@ def get_filters():
 def load_data(city, month, day):
     """
     Loads data for the specified city and filters by month and day if applicable.
-
     Args:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
@@ -72,6 +69,7 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
+
     # load data file into a dataframe
     df = pd.read_csv(CITY_DATA[city])
 
@@ -98,6 +96,7 @@ def load_data(city, month, day):
 
     # filter by day of week if applicable
     if day != 'all':
+
         # filter by day of week to create the new dataframe
         df = df[df['day_of_week'] == day.title()]
 
@@ -114,6 +113,7 @@ def time_stats(df, line_count):
     """Displays statistics on the most frequent times of travel."""
     from collections import Counter
     start_time = time.time()
+
     print('\nCalculating The Most Frequent Times of Travel...')
     line_count = 0
 
@@ -175,8 +175,8 @@ def station_stats(df, line_count):
 
 def trip_duration_stats(df, line_count):
     """Displays statistics on the total and average trip duration."""
-
     start_time = time.time()
+
     print('Calculating Trip Duration...')
     line_count = 0
 
@@ -266,9 +266,6 @@ def show_rawdata(df):
             break
         get_lines = input('Want to see another 5 rows of the raw data? Enter yes or no: ')
 
-
-
-
 def main():
     line_count = 0
     while True:
@@ -284,7 +281,6 @@ def main():
         restart = input('\n***END OF ANALYSIS***. Would you like to restart? ')
         if restart.lower() not in ['yes', 'y']:
             break
-
 
 if __name__ == "__main__":
 	main()
